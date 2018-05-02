@@ -8,6 +8,7 @@
 
 /lib/**/*.js
 !/lib/dts-bundle.js
+!/lib/index.js
 
 /test/tmp
 /test/build

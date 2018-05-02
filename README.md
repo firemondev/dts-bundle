@@ -134,7 +134,13 @@ var opts = {
     // emit although no included files not found. See "Files not found" section. 
     // *** Experimental, TEST NEEDED
     // - default: false     
-    emitOnNoIncludedFileNotFound: false
+    emitOnNoIncludedFileNotFound: false,    
+    // output d.ts as designed for module folder. (no declare modules)
+    outputAsModuleFolder: false,
+    // path to file that contains the header
+    // // insert a header in output file. i.e.: http://definitelytyped.org/guides/contributing.html#header
+    // - default: null
+    headerPath: "path/to/header/file"     
 };
 
 // require module
@@ -174,6 +180,16 @@ export * from './Utils/AngularHelpers';
 ````
 
 Then `dts-bundle` processes this file. When finish the temporally file is deleted.
+
+### Module folders
+NPM introduced support for in-package typings,
+it is done by adding typings key into package.json file, which should refer to the
+typings file.
+when this is the case, the d.ts file is threated as module folder, and declare module
+is not allowed.
+
+* `outputAsModuleFolder`. When using this option output d.ts will be compatible with module folder. which means, no declare module are used,
+and all internal references are removed as they are merged into the output d.ts.
 
 ### Files not found.
 
@@ -245,6 +261,8 @@ Options:
   --verbose                       enable verbose mode, prints detailed info about all references and includes/excludes
   --emitOnIncludedFileNotFound    emit although included files not found. See readme "Files not found" section.
   --emitOnNoIncludedFileNotFound  emit although no included files not found. See readme "Files not found" section.
+  --outputAsModuleFolder          output as module folder format (no declare module) . See readme "Module folders" section.
+  --headerPath [value]            path to file that contains the header
 ````
 
 For example: 
@@ -287,10 +305,15 @@ Emitting `tmp/out/cooles.d.ts`.
   * referenceExternals option
   * All files feature using `**/*.d.ts` on `main` option
   * Return a object with the result
+  * Add Header using `headerPath` 
 * 0.3.x - Support es6 module syntax & rewrite by TypeScript
 * 0.2.x - Fixed bugs & added many options (thanks @poelstra)
 * 0.1.x - First release
 
+## Key People
+
+* [Javier Ros (tolemaC)](http://github.com/tolemac) : current lead
+* [Bart van der Schoor](https://github.com/Bartvds) : original creator
 
 ## Contributions
 
@@ -298,9 +321,6 @@ They are very welcome. Beware this module is a quick hack-job so good luck!
 
 * Martin Poelstra (@poelstra): Exclude 'external' typings, optional debug output, improved configurability.
 
-
 ## License
-
-Copyright (c) 2014 [Bart van der Schoor](https://github.com/Bartvds)
 
 Licensed under the MIT license.
